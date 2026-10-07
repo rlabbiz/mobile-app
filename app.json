@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Koreva",
+    "slug": "filmstream",
+    "version": "1.0.0",
+    "orientation": "default",
+    "userInterfaceStyle": "dark",
+    "scheme": "koreva",
+    "android": {
+      "package": "com.filmstream.mobile"
+    },
+    "ios": {
+      "bundleIdentifier": "com.filmstream.mobile",
+      "supportsTablet": true
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-video",
+      "expo-font",
+      "expo-asset"
+    ]
+  }
+}

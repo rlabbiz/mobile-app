@@ -1,0 +1,51 @@
+import React from 'react';
+import ReactTestRenderer from 'react-test-renderer';
+import {Alert} from 'react-native';
+import {QueryClient,QueryClientProvider} from '@tanstack/react-query';
+import {ProfileScreen} from '../src/ProfileScreen';
+import {LanguageProvider} from '../src/i18n';
+import {request} from '../src/api/client';
+import {changeAccount} from '../src/api/profile';
+import {clearWatchHistory} from '../src/api/watch-progress';
+jest.mock('@react-navigation/native',()=>({useIsFocused:()=>true}));
+jest.mock('react-native-safe-area-context',()=>({SafeAreaView:require('react-native').View}));
+jest.mock('@expo/vector-icons/Ionicons',()=>({__esModule:true,default:()=>null}));
+jest.mock('expo-crypto',()=>({randomUUID:()=> 'key'}));
+jest.mock('../src/api/client',()=>({request:jest.fn()}));
+jest.mock('../src/api/profile',()=>({changeAccount:jest.fn()}));
+jest.mock('../src/api/telemetry',()=>({flushEvents:jest.fn(async()=>undefined),clearPendingEvents:jest.fn(async()=>undefined)}));
+jest.mock('../src/api/watch-progress',()=>({clearWatchHistory:jest.fn(async()=>undefined)}));
+jest.mock('@react-native-async-storage/async-storage',()=>({getItem:jest.fn(async()=>null),setItem:jest.fn(async()=>undefined)}));
+test('creates an account from the current profile, updates language and signs out only this phone',async()=>{
+  const client=new QueryClient({defaultOptions:{queries:{retry:false,gcTime:0},mutations:{gcTime:0}}});
+  let server:any={id:'current-user',status:'anonymous',displayName:null,email:null,locale:'en'};
+  (request as jest.Mock).mockImplementation(async(_path:string,options?:RequestInit)=>{if(options?.body)server={...server,...JSON.parse(options.body as string)};return server;});
+  (changeAccount as jest.Mock).mockImplementation(async(action:string,input:any)=>{server=action==='logout'?{id:'new-guest',status:'anonymous',locale:'fr'}:{...server,status:'linked',...input};return server;});
+  let renderer:ReactTestRenderer.ReactTestRenderer;
+  const button=(label:string)=>renderer!.root.findAll(node=>node.props.accessibilityLabel===label&&typeof node.props.onPress==='function')[0];
+  try{
+    await ReactTestRenderer.act(async()=>{renderer=ReactTestRenderer.create(<QueryClientProvider client={client}><LanguageProvider><ProfileScreen/></LanguageProvider></QueryClientProvider>);});
+    await ReactTestRenderer.act(async()=>{await new Promise<void>(resolve=>setTimeout(resolve,30));});
+    await ReactTestRenderer.act(async()=>button('Create account').props.onPress());
+    await ReactTestRenderer.act(async()=>{
+      renderer!.root.findAll(node=>node.props.accessibilityLabel==='Name'&&node.props.onChangeText)[0].props.onChangeText('Viewer');
+      renderer!.root.findAll(node=>node.props.accessibilityLabel==='Email'&&node.props.onChangeText)[0].props.onChangeText('VIEWER@example.test');
+      renderer!.root.findAll(node=>node.props.accessibilityLabel==='Password'&&node.props.onChangeText)[0].props.onChangeText('safe-password-123');
+    });
+    await ReactTestRenderer.act(async()=>{button('Create account').props.onPress();await new Promise<void>(resolve=>setTimeout(resolve,30));});
+    expect(changeAccount).toHaveBeenCalledWith('register',{email:'viewer@example.test',password:'safe-password-123',displayName:'Viewer'});
+    expect(clearWatchHistory).not.toHaveBeenCalled();
+    await ReactTestRenderer.act(async()=>{button('Language: Français').props.onPress();await new Promise<void>(resolve=>setTimeout(resolve,30));});
+    expect(request).toHaveBeenCalledWith('/v1/profile',expect.objectContaining({body:JSON.stringify({locale:'fr'})}));
+    expect(JSON.stringify(renderer!.toJSON())).toContain('Langue');
+    await ReactTestRenderer.act(async()=>{button('Language: العربية').props.onPress();await new Promise<void>(resolve=>setTimeout(resolve,30));});
+    expect(JSON.stringify(renderer!.toJSON())).toContain('اللغة');
+    expect(renderer!.root.findAll(node=>node.props.style?.direction==='rtl').length).toBeGreaterThan(0);
+    const alert=jest.spyOn(Alert,'alert');
+    await ReactTestRenderer.act(async()=>button('Sign out').props.onPress());
+    const actions=alert.mock.calls[0][2]!;
+    await ReactTestRenderer.act(async()=>{actions[1].onPress!();await new Promise<void>(resolve=>setTimeout(resolve,30));});
+    expect(changeAccount).toHaveBeenLastCalledWith('logout',undefined);expect(clearWatchHistory).toHaveBeenCalledTimes(1);
+    alert.mockRestore();
+  }finally{await ReactTestRenderer.act(async()=>renderer!.unmount());client.clear();}
+});

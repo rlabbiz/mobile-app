@@ -1,0 +1,1 @@
+module.exports = { preset: 'jest-expo', testPathIgnorePatterns: ['/node_modules/', '/native-legacy/', '/.tools/'], modulePathIgnorePatterns: ['<rootDir>/native-legacy/', '<rootDir>/.tools/', '<rootDir>/artifacts/'] };
