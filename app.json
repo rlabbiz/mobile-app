@@ -7,7 +7,11 @@
     "userInterfaceStyle": "dark",
     "scheme": "koreva",
     "android": {
-      "package": "com.filmstream.mobile"
+      "package": "com.filmstream.mobile",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/brand/adaptive-icon.png",
+        "backgroundColor": "#050518"
+      }
     },
     "ios": {
       "bundleIdentifier": "com.filmstream.mobile",
@@ -17,7 +21,23 @@
       "expo-secure-store",
       "expo-video",
       "expo-font",
-      "expo-asset"
-    ]
+      "expo-asset",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/brand/mark.png",
+          "imageWidth": 180,
+          "backgroundColor": "#050518",
+          "resizeMode": "contain",
+          "ios": {
+            "image": "./assets/brand/launch.jpg",
+            "resizeMode": "cover",
+            "enableFullScreenImage_legacy": true,
+            "backgroundColor": "#050518"
+          }
+        }
+      ]
+    ],
+    "icon": "./assets/brand/icon.png"
   }
 }

@@ -6,17 +6,21 @@ import {request} from './api/client';
 import type {Profile} from './api/profile';
 export type Language='en'|'fr'|'ar';
 const translations:Record<string,[string,string]>={
+ 'Next episode':['Épisode suivant','الحلقة التالية'],
+ 'Trending':['Tendances','الرائج'],'New releases':['Nouveautés','أحدث الأفلام'],'Most loved':['Les plus aimés','الأكثر إعجابًا'],'See all':['Tout voir','عرض الكل'],'Share':['Partager','مشاركة'],'Opening your story':['Ouverture de votre histoire','جارٍ فتح قصتك'],
+ 'Search results':['Résultats de recherche','نتائج البحث'],
+ 'My List':['Ma liste','قائمتي'],'Short dramas.':['Dramas courts.','دراما قصيرة.'],'Big emotions.':['Grandes émotions.','مشاعر كبيرة.'],'Loading your stories':['Chargement de vos histoires','جارٍ تحميل قصصك'],'Featured story':['À la une','قصة مميزة'],'Discover genres':['Découvrir les genres','اكتشف الأنواع'],
  'Popular':['Populaires','الرائجة'],'Famous':['Célèbres','المشهورة'],'New':['Nouveautés','الجديدة'],'Categories':['Catégories','الفئات'],'Continue watching':['Continuer à regarder','تابع المشاهدة'],'LAST WATCHED':['DERNIER FILM VU','آخر ما شاهدته'],'More stories':['Plus d’histoires','المزيد من القصص'],
- 'Save an episode to watch it again here.':['Enregistrez un épisode pour le revoir ici.','احفظ جزءًا لتشاهده مجددًا هنا.'],
- 'Films':['Films','الأفلام'],'No saved episodes yet':['Aucun épisode enregistré','لا توجد أجزاء محفوظة'],'Save a film to find it here.':['Enregistrez un film pour le retrouver ici.','احفظ فيلمًا لتجده هنا.'],
- 'SHORT STORIES. BIG FEELINGS.':['PETITES HISTOIRES. GRANDES ÉMOTIONS.','قصص قصيرة. مشاعر كبيرة.'],'Part':['Épisode','الجزء'],'Reel':['Reel','ريل'],'Watched':['Vu','تمت المشاهدة'],'watched':['vus','شاهدتها'],
+ 'Save an episode to watch it again here.':['Enregistrez un épisode pour le revoir ici.','احفظ حلقة لتشاهده مجددًا هنا.'],
+ 'Films':['Films','الأفلام'],'No saved episodes yet':['Aucun épisode enregistré','لا توجد حلقات محفوظة'],'Save a film to find it here.':['Enregistrez un film pour le retrouver ici.','احفظ فيلمًا لتجده هنا.'],
+ 'SHORT STORIES. BIG FEELINGS.':['PETITES HISTOIRES. GRANDES ÉMOTIONS.','قصص قصيرة. مشاعر كبيرة.'],'Episode':['Épisode','الحلقة'],'Reel':['Reel','ريل'],'Watched':['Vu','تمت المشاهدة'],'watched':['vus','شاهدتها'],
  'Find your next story':['Trouvez votre prochaine histoire','اكتشف قصتك التالية'],'No saved stories yet':['Aucune histoire enregistrée','لا توجد قصص محفوظة بعد'],
- 'Save a film or part to find it here.':['Enregistrez un film ou un épisode pour le retrouver ici.','احفظ فيلمًا أو جزءًا لتجده هنا.'],'Try a different title or category.':['Essayez un autre titre ou une autre catégorie.','جرّب عنوانًا أو فئة أخرى.'],
- 'Published films will appear here. Pull down to refresh.':['Les films publiés apparaîtront ici. Tirez pour actualiser.','ستظهر الأفلام المنشورة هنا. اسحب لأسفل للتحديث.'],
- 'Start watching':['Commencer','ابدأ المشاهدة'],'PARTS':['ÉPISODES','أجزاء'],'Retry':['Réessayer','حاول مجددًا'],'views':['vues','مشاهدة'],
+ 'Save a film or episode to find it here.':['Enregistrez un film ou un épisode pour le retrouver ici.','احفظ فيلمًا أو حلقة لتجده هنا.'],'Try a different title or category.':['Essayez un autre titre ou une autre catégorie.','جرّب عنوانًا أو فئة أخرى.'],
+ 'Published films will appear here. Tap refresh to check again.':['Les films publiés apparaîtront ici. Touchez Actualiser pour vérifier.','ستظهر الأفلام المنشورة هنا. اضغط على التحديث للتحقق.'],
+ 'Start watching':['Commencer','ابدأ المشاهدة'],'EPISODES':['ÉPISODES','حلقات'],'Retry':['Réessayer','حاول مجددًا'],'views':['vues','مشاهدة'],
  'Home':['Accueil','الرئيسية'],'Reels':['Reels','ريلز'],'Saved':['Enregistrés','المحفوظات'],'Profile':['Profil','الملف الشخصي'],
- 'Language':['Langue','اللغة'],'For you':['Pour vous','لك'],'Films & parts':['Films et épisodes','الأفلام والأجزاء'],'Explore':['Découvrir','اكتشف الفيلم'],
- 'Search films':['Rechercher des films','ابحث عن الأفلام'],'All':['Tout','الكل'],'Episodes':['Épisodes','الأجزاء'],'Play film':['Voir le film','شغّل الفيلم'],'Try again':['Réessayer','حاول مجددًا'],
+ 'Language':['Langue','اللغة'],'For you':['Pour vous','لك'],'Films & episodes':['Films et épisodes','الأفلام والحلقات'],'Explore':['Découvrir','اكتشف الفيلم'],'Explore film':['Découvrir le film','اكتشف الفيلم'],'Mute video':['Couper le son','كتم الصوت'],'Unmute video':['Activer le son','تشغيل الصوت'],'Share this episode':['Partager cet épisode','مشاركة هذه الحلقة'],'Share this reel':['Partager ce reel','مشاركة هذا الريل'],
+ 'Search films':['Rechercher des films','ابحث عن الأفلام'],'All':['Tout','الكل'],'Episodes':['Épisodes','الحلقات'],'Play film':['Voir le film','شغّل الفيلم'],'Try again':['Réessayer','حاول مجددًا'],
  'No films yet':['Aucun film pour le moment','لا توجد أفلام بعد'],'No saved films yet':['Aucun film enregistré','لا توجد أفلام محفوظة'],'No reels yet':['Aucun reel pour le moment','لا توجد ريلز بعد'],'No saved reels yet':['Aucun reel enregistré','لا توجد ريلز محفوظة'],
  'Create account':['Créer un compte','إنشاء حساب'],'Sign in':['Se connecter','تسجيل الدخول'],'Sign out':['Se déconnecter','تسجيل الخروج'],'Save profile':['Enregistrer','حفظ الملف الشخصي'],
  'Name':['Nom','الاسم'],'Email':['E-mail','البريد الإلكتروني'],'Password':['Mot de passe','كلمة المرور'],'Your name':['Votre nom','اسمك'],'Your password':['Votre mot de passe','كلمة المرور'],
@@ -31,8 +35,8 @@ const translations:Record<string,[string,string]>={
  'Unable to load your profile. Tap to retry.':['Impossible de charger le profil. Touchez pour réessayer.','تعذّر تحميل ملفك الشخصي. اضغط للمحاولة مجددًا.'],
  'Unable to load reels. Tap to retry.':['Impossible de charger les reels. Touchez pour réessayer.','تعذّر تحميل الريلز. اضغط للمحاولة مجددًا.'],
  'Save a reel to watch it again here.':['Enregistrez un reel pour le retrouver ici.','احفظ ريلًا لمشاهدته هنا مجددًا.'],'New clips appear here when films have published discovery reels.':['De nouveaux clips apparaîtront ici dès leur publication.','ستظهر المقاطع الجديدة هنا بعد نشرها.'],
- 'You’re caught up · Discover more':['Vous êtes à jour · Découvrir plus','شاهدت كل المقاطع · اكتشف المزيد'],'Watch again':['Revoir','شاهد مجددًا'],'Part finished':['Épisode terminé','انتهى الجزء'],'Muted':['Muet','مكتوم'],'Sound':['Son','الصوت'],
- 'Save':['Enregistrer','حفظ'],'Loved':['Aimé','أعجبك'],'Love':['J’aime','إعجاب'],'Saved films':['Films enregistrés','الأفلام المحفوظة'],'parts watched':['Épisodes vus','أجزاء شاهدتها'],
+ 'You’re caught up · Discover more':['Vous êtes à jour · Découvrir plus','شاهدت كل المقاطع · اكتشف المزيد'],'Watch again':['Revoir','شاهد مجددًا'],'Episode finished':['Épisode terminé','انتهت الحلقة'],'Reel finished':['Reel terminé','انتهى الريل'],'Muted':['Muet','مكتوم'],'Sound':['Son','الصوت'],
+ 'Remove from saved':['Retirer des favoris','إزالة من المحفوظات'],'Remove love':['Retirer le J’aime','إزالة الإعجاب'],'Save':['Enregistrer','حفظ'],'Loved':['Aimé','أعجبك'],'Love':['J’aime','إعجاب'],'Saved films':['Films enregistrés','الأفلام المحفوظة'],'episodes watched':['Épisodes vus','حلقات شاهدتها'],
 };
 const translate=(language:Language,key:string)=>language==='en'?key:translations[key]?.[language==='fr'?0:1]??key;
 const Context=createContext({language:'en' as Language,t:(key:string)=>key,setLanguage:async(_language:Language)=>{}});

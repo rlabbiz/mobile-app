@@ -67,3 +67,14 @@ test('waits for native readiness and ignores premature completion when a part op
   expect(props.onEnd).toHaveBeenCalledTimes(1);
   await ReactTestRenderer.act(async () => renderer!.unmount());
 });
+
+test('reports source and selected-track dimensions for the uncropped video frame',async()=>{
+ const onVideoSize=jest.fn();const props={url:'https://media.example/sized.m3u8',paused:false,initialPosition:async()=>0,onLoad:jest.fn(),onProgress:jest.fn(),onEnd:jest.fn(),onError:jest.fn(),onVideoSize};let renderer:ReactTestRenderer.ReactTestRenderer;
+ await ReactTestRenderer.act(async()=>{renderer=ReactTestRenderer.create(<ExpoPlayer {...props}/>);});
+ await ReactTestRenderer.act(async()=>mockListeners.sourceLoad({availableVideoTracks:[{size:{width:1920,height:1032}}]}));
+ expect(onVideoSize).toHaveBeenLastCalledWith({width:1920,height:1032});
+ await ReactTestRenderer.act(async()=>mockListeners.videoTrackChange({videoTrack:{size:{width:1080,height:1920}}}));
+ expect(onVideoSize).toHaveBeenLastCalledWith({width:1080,height:1920});
+ await ReactTestRenderer.act(async()=>mockListeners.videoTrackChange({videoTrack:null}));expect(onVideoSize).toHaveBeenCalledTimes(2);
+ await ReactTestRenderer.act(async()=>renderer!.unmount());
+});

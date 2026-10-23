@@ -26,9 +26,9 @@ export function useSave(filmId: string, partId?: string) {
 }
 export function SaveButton({ save, rail = false }: { save: ReturnType<typeof useSave>; rail?: boolean }) {
   const {t}=useLanguage();
-  return <Pressable accessibilityRole="button" accessibilityLabel={save.saved ? 'Remove from saved' : 'Save'} accessibilityState={{ selected: save.saved, disabled: save.pending }} disabled={save.pending} onPress={save.toggle} style={[styles.button,rail && styles.rail]}>
-    <Ionicons name={save.saved ? 'bookmark' : 'bookmark-outline'} size={rail ? 29 : 19} color={save.saved ? '#F25B78' : '#fff'} />
+  return <Pressable accessibilityRole="button" accessibilityLabel={t(save.saved ? 'Remove from saved' : 'Save')} accessibilityState={{ selected: save.saved, disabled: save.pending }} disabled={save.pending} onPress={save.toggle} style={[styles.button,rail && styles.rail]}>
+    <Ionicons name={save.saved ? 'bookmark' : 'bookmark-outline'} size={rail ? 29 : 19} color={save.saved ? '#A855F7' : '#fff'} />
     <Text style={[styles.label,rail && styles.railLabel]}>{t(save.error ? 'Retry' : save.saved ? 'Saved' : 'Save')}</Text>
   </Pressable>;
 }
-const styles=StyleSheet.create({ button: { minHeight:44, paddingHorizontal:12, borderRadius:22, flexDirection:'row', alignItems:'center',justifyContent:'center',gap:6,backgroundColor:'rgba(28,28,34,0.72)' }, label:{fontSize:11,color:'#fff',fontWeight:'600'},rail:{flexDirection:'column',paddingHorizontal:0,gap:4,backgroundColor:'transparent',minWidth:48},railLabel:{fontSize:10,textShadowColor:'#000',textShadowRadius:4} });
+const styles=StyleSheet.create({ button: { minHeight:44, paddingHorizontal:12, borderRadius:22, flexDirection:'row', alignItems:'center',justifyContent:'center',gap:6,backgroundColor:'rgba(21,24,50,0.9)' }, label:{fontSize:11,color:'#fff',fontWeight:'600'},rail:{flexDirection:'column',paddingHorizontal:0,gap:4,backgroundColor:'transparent',width:76,minWidth:76},railLabel:{fontSize:11,lineHeight:16,width:76,textAlign:'center',fontWeight:'600',textShadowColor:'#000',textShadowRadius:4} });

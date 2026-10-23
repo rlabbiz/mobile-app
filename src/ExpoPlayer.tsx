@@ -16,6 +16,7 @@ type Props = {
   previewSeconds?: number;
   initialPosition: () => Promise<number>;
   onLoad: () => void;
+  onVideoSize?: (size:{width:number;height:number})=>void;
   onProgress: (event: { currentTime: number }) => void;
   onEnd: () => void;
   onError: () => void;
@@ -79,6 +80,14 @@ export default function ExpoPlayer(props: Props) {
     player.loop = props.loop ?? false;
   }, [player, props.muted, props.loop]);
 
+  useEventListener(player, 'videoTrackChange',event=>{
+    const size=event.videoTrack?.size;
+    if(size&&size.width>0&&size.height>0)latest.current.onVideoSize?.(size);
+  });
+  useEventListener(player, 'sourceLoad',event=>{
+    const size=event.availableVideoTracks?.[0]?.size;
+    if(size&&size.width>0&&size.height>0)latest.current.onVideoSize?.(size);
+  });
   useEventListener(player, 'playingChange', event => {
     if (event.isPlaying && ready.current && !started.current && !latest.current.paused) {
       started.current = true;

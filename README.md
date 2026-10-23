@@ -110,3 +110,7 @@ Home presents the last watched film in a separate full-width Continue watching c
 Home supports horizontal browse gestures: swipe from right to left to move Popular → Famous → New → Categories, and from left to right to return. Vertical film scrolling remains available. The compact 124-pixel last-watched card appears only under Popular, with video on the left and information on the right, without a separate Continue watching heading.
 
 Home uses react-native-pager-view for native page transitions with an explicit left-to-right page layout, preserved per-tab vertical scroll, bounded adjacent-page metadata preload, and paused video previews during transitions. After adding the pager dependency, restart Metro with npx expo start --go --clear. No APK build or account linking is required to test it in Expo Go.
+
+## Home and sharing
+
+See [Home and sharing](docs/home-and-sharing.md) for the new shelves, endpoints, player gestures and share-link testing.

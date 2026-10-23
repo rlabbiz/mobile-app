@@ -33,9 +33,9 @@ function merge(server:FilmProgress,local?:FilmProgress):FilmProgress {
 }
 export function useWatchSummaries(ids:string[],focused:boolean) {
   const queries=useQueryClient();
-  return useQuery({queryKey:['watch-summaries',ids.join(',')],enabled:focused && ids.length>0,staleTime:0,
+  return useQuery({queryKey:['watch-summaries',ids.join(',')],enabled:focused && ids.length>0,staleTime:15000,
     queryFn:async()=>{
-      await flushEvents();
+      void flushEvents();
       const local=await history();
       const batches=[];
       for(let i=0;i<ids.length;i+=50) batches.push(request<{items:WatchSummary[]}>(`/v1/films/progress?filmIds=${ids.slice(i,i+50).join(',')}`));
@@ -49,7 +49,7 @@ export function useWatchSummaries(ids:string[],focused:boolean) {
 export function useFilmProgress(filmId:string,focused:boolean) {
   const queries=useQueryClient();
   return useQuery({queryKey:['watch-progress',filmId],enabled:focused,staleTime:0,queryFn:async()=>{
-    await flushEvents();
+    void flushEvents();
     const server=await request<FilmProgress>(`/v1/films/${filmId}/progress`);
     const local=(await history())[filmId];
     // Preserve progress recorded by earlier app versions on this installation.
@@ -63,7 +63,6 @@ export function useFilmProgress(filmId:string,focused:boolean) {
     })});
     const task=writes.then(async()=>{const saved=await history();saved[filmId]=merge(result,saved[filmId]);await AsyncStorage.setItem(historyKey,JSON.stringify(saved));});
     writes=task.catch(()=>undefined);
-    await task;
     return result;
   }});
 }

@@ -42,19 +42,19 @@ export function useLove(filmId: string, partId?: string) {
 export function LoveButton({ love, rail = false }: { love: ReturnType<typeof useLove>; rail?: boolean }) {
   const {t}=useLanguage();
   return <Pressable
-    accessibilityRole="button" accessibilityLabel={love.loved ? 'Remove love' : 'Love'}
+    accessibilityRole="button" accessibilityLabel={t(love.loved ? 'Remove love' : 'Love')}
     accessibilityState={{ selected: love.loved, disabled: love.pending }}
     disabled={love.pending} hitSlop={8}
     onPress={() => love.setLoved(!love.loved)} style={[styles.button,rail && styles.rail]}
   >
-    <Ionicons name={love.loved ? 'heart' : 'heart-outline'} size={rail ? 32 : 23} color={love.loved ? '#F25B78' : '#fff'} />
+    <Ionicons name={love.loved ? 'heart' : 'heart-outline'} size={rail ? 32 : 23} color={love.loved ? '#FF3C83' : '#fff'} />
     <Text style={[styles.count, love.loved && styles.selected]}>{love.error ? t('Retry') : new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(love.count)}</Text>
   </Pressable>;
 }
 const styles = StyleSheet.create({
-  button: { minWidth: 64, minHeight: 44, paddingHorizontal: 12, flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: 'rgba(28,28,34,0.72)', borderWidth: StyleSheet.hairlineWidth, borderColor: 'rgba(255,255,255,0.12)' },
+  button: { minWidth: 64, minHeight: 44, paddingHorizontal: 12, flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: 'rgba(21,24,50,0.9)', borderWidth: StyleSheet.hairlineWidth, borderColor: 'rgba(255,255,255,0.12)' },
   heart: { fontSize: 23, lineHeight: 27, color: '#DADAE2' },
-  selected: { color: '#F25B78' },
-  rail: { flexDirection: 'column', backgroundColor: 'transparent', borderWidth: 0, minWidth: 48, paddingHorizontal: 0, gap: 4 },
-  count: { fontSize: 11, fontWeight: '600', color: '#DADAE2', fontVariant: ['tabular-nums'] },
+  selected: { color: '#FF3C83' },
+  rail: { flexDirection: 'column', backgroundColor: 'transparent', borderWidth: 0, width:76,minWidth:76, paddingHorizontal: 0, gap: 4 },
+  count: { fontSize: 11, textAlign:'center',lineHeight:16,fontWeight: '600', color: '#DADAE2', fontVariant: ['tabular-nums'] },
 });
